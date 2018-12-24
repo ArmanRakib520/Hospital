@@ -14,21 +14,21 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mcc.hospital.R;
 import com.mcc.hospital.activity.GovtHospitalActivity;
+import com.mcc.hospital.model.Category;
 
 import java.util.ArrayList;
 
 public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCategoryAdapter.MyViewHolder> {
 
 
-    ArrayList<String> hospitalName;
-    ArrayList<Integer> hospitalImage;
+    ArrayList<Category> categories;
     Context context;
     HospitalCategoryAdapter.MyViewHolder viewHoldertext;
 
-    public HospitalCategoryAdapter(Context context, ArrayList<String> hospitalNames, ArrayList<Integer> hospitalImages) {
+    public HospitalCategoryAdapter(Context context, ArrayList<Category> hospitalNames) {
         this.context = context;
-        this.hospitalName = hospitalNames;
-        this.hospitalImage = hospitalImages;
+        this.categories = hospitalNames;
+
     }
 
     @Override
@@ -39,44 +39,44 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int position) {
 
-        //Glide.with(context).load(hospitalImage.get(i)).into(myViewHolder.imghospital);
-        myViewHolder.txthospitalname.setText(hospitalName.get(i));
-        myViewHolder.imghospital.setImageResource(hospitalImage.get(i));
+        Glide.with(context).load(categories.get(position).getCategoryLogo()).into(myViewHolder.imgcategory);
+        myViewHolder.txthospitalname.setText(categories.get(position).getCategoryName());
 
 
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+     /*   myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (i==0){
+                if (position==0){
                     Intent govthospital=new Intent(context,GovtHospitalActivity.class);
                     context.startActivity(govthospital);
-                }else if (i==1){
+                }else if (position==1){
                     Toast.makeText(context , "Private" , Toast.LENGTH_SHORT).show();
-                }else if (i==2){
+                }else if (position==2){
                     Toast.makeText(context , "Clinic" , Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
     }
 
 
     @Override
     public int getItemCount() {
-        return hospitalImage.size();
+        return categories.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imghospital;
+        ImageView imgcategory;
         TextView txthospitalname;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            imghospital = itemView.findViewById(R.id.img_hospital);
             txthospitalname = itemView.findViewById(R.id.txt_hos_name);
+            imgcategory=itemView.findViewById(R.id.img_hospital);
 
         }
     }

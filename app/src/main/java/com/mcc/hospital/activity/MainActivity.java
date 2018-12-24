@@ -1,5 +1,7 @@
 package com.mcc.hospital.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,33 +14,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mcc.hospital.R;
 import com.mcc.hospital.adapter.HospitalCategoryAdapter;
 import com.mcc.hospital.adapter.SlidingImageAdapter;
+import com.mcc.hospital.api.HttpParams;
+import com.mcc.hospital.api.RetrofitClient;
+import com.mcc.hospital.model.Category;
+import com.mcc.hospital.model.CategoryList;
+import com.mcc.hospital.utilits.AppConstant;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends BaseActivity {
 
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private static final Integer[] IMAGES = {R.drawable.img1 , R.drawable.img2 , R.drawable.img4 , R.drawable.img5};
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
-    Toolbar toolbar;
-    DrawerLayout mdrawer;
-    NavigationView navigationView;
-    ActionBarDrawerToggle toggle;
-    ArrayList hospitalImage,hospitalName;
+    ArrayList hospitalImage, hospitalName;
     RecyclerView rvhospitalName;
     LinearLayoutManager mLayoutManager;
     HospitalCategoryAdapter hospitalCategoryAdapter;
+    ArrayList<Category> categoriesData;
+    Context mContext;
+    Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,28 +58,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         initeVariable();
         initview();
+        initFunctionality();
+
+    }
+
+    public void initeVariable() {
+
+        mContext = getApplicationContext();
+        mActivity = MainActivity.this;
+        categoriesData = new ArrayList<>();
 
     }
 
     private void initview() {
 
-        rvhospitalName=findViewById(R.id.rv_hospital_category);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        rvhospitalName = findViewById(R.id.rv_hospital_category);
 
-
-        mdrawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this , mdrawer , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
-        mdrawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         for (int i = 0; i < IMAGES.length; i++)
             ImagesArray.add(IMAGES[i]);
 
-        mPager =findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPager.setAdapter(new SlidingImageAdapter(MainActivity.this , ImagesArray));
 
 
@@ -93,76 +103,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } , 3000 , 3000);
 
 
-
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvhospitalName.setLayoutManager(mLayoutManager);
 
 
-        hospitalCategoryAdapter = new HospitalCategoryAdapter(MainActivity.this, hospitalName, hospitalImage);
+        hospitalCategoryAdapter = new HospitalCategoryAdapter(MainActivity.this , hospitalName);
         rvhospitalName.setAdapter(hospitalCategoryAdapter);
+
+        initToolbar();
+        initDrawer();
 
     }
 
-   public void initeVariable(){
-       hospitalImage = new ArrayList<>(Arrays.asList(R.drawable.govt_logo, R.drawable.privatehospital, R.drawable.clinic));
-       hospitalName = new ArrayList<>(Arrays.asList("Govt. Medical College & Hospital", "Private Medical College & Hospital", "Clinic"));
-   }
+
+    private void initFunctionality() {
+
+    }
+
+    private void loadCategories() {
+
+        RetrofitClient.getClient().getCategoryList(HttpParams.SHEET_ID, HttpParams.SHEET_NAME_CATEGORY).enqueue(new Callback<CategoryList>() {
+            @Override
+            public void onResponse(Call<CategoryList> call, Response<CategoryList> response) {
+
+                AppConstant.ALL_CATEGORY_LIST.clear();
+                AppConstant.ALL_CATEGORY_LIST.addAll(response.body().getCategory());
+
+                if (!categoriesData.isEmpty()) {
+                    categoriesData.clear();
+                }
+                categoriesData.addAll(response.body().getCategory());
+
+            }
+
+            @Override
+            public void onFailure(Call<CategoryList> call, Throwable t) {
+                Log.d("TimeTesting", "Second Req DetailsDataNotFound");
+            }
+        });
+    }
+
 
 
     @Override
     public void onBackPressed() {
-        mdrawer =  findViewById(R.id.drawer_layout);
-        if (mdrawer.isDrawerOpen(GravityCompat.START)) {
-            mdrawer.closeDrawer(GravityCompat.START);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main , menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_govt_hospital) {
-            Intent intent=new Intent(getApplicationContext(),GovtHospitalActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_private_hospital) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.nav_about) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
 
