@@ -1,5 +1,6 @@
 package com.mcc.hospital.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -28,10 +29,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES = {R.drawable.ic_govt_hospital , R.drawable.ic_about , R.drawable.ic_menu_camera , R.drawable.ic_private_hospital};
+    private static final Integer[] IMAGES = {R.drawable.img1 , R.drawable.img2 , R.drawable.img4 , R.drawable.img5};
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
     Toolbar toolbar;
-    DrawerLayout drawer;
+    DrawerLayout mdrawer;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     ArrayList hospitalImage,hospitalName;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         initeVariable();
         initview();
@@ -50,15 +52,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initview() {
 
-        setContentView(R.layout.activity_main);
         rvhospitalName=findViewById(R.id.rv_hospital_category);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this , drawer , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        mdrawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this , mdrawer , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+        mdrawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
@@ -102,16 +103,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
    public void initeVariable(){
-       hospitalImage = new ArrayList<>(Arrays.asList(R.drawable.ic_govt_hospital, R.drawable.ic_private_hospital, R.drawable.ic_private_hospital));
+       hospitalImage = new ArrayList<>(Arrays.asList(R.drawable.govt_logo, R.drawable.privatehospital, R.drawable.clinic));
        hospitalName = new ArrayList<>(Arrays.asList("Govt. Medical College & Hospital", "Private Medical College & Hospital", "Clinic"));
    }
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        mdrawer =  findViewById(R.id.drawer_layout);
+        if (mdrawer.isDrawerOpen(GravityCompat.START)) {
+            mdrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_govt_hospital) {
-            // Handle the camera action
+            Intent intent=new Intent(getApplicationContext(),GovtHospitalActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_private_hospital) {
 
         } else if (id == R.id.nav_share) {
@@ -161,4 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

@@ -15,11 +15,10 @@
             android:layout_height="200dp"
             android:layout_alignParentTop="true" />
 
-        <com.viewpagerindicator.CirclePageIndicator
+        <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dip"
+            android:layout_height="40dp"
             android:layout_marginTop="160dp"/>
     </RelativeLayout>
 

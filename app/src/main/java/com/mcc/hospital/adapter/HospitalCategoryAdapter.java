@@ -38,8 +38,11 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        Glide.with(context).load(hospitalImage.get(i)).into(myViewHolder.imghospital);
+
+        //Glide.with(context).load(hospitalImage.get(i)).into(myViewHolder.imghospital);
         myViewHolder.txthospitalname.setText(hospitalName.get(i));
+        myViewHolder.imghospital.setImageResource(hospitalImage.get(i));
+
 
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

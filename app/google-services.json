@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "73357929695",
+    "firebase_url": "https://hospital-cdff8.firebaseio.com",
+    "project_id": "hospital-cdff8",
+    "storage_bucket": "hospital-cdff8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73357929695:android:3d83476b91086c08",
+        "android_client_info": {
+          "package_name": "com.mcc.hospital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73357929695-s42muhnhq5trrjpn6668mq9d9qui7i31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcc.hospital",
+            "certificate_hash": "296e7643317ffe7634b6a9a4d468863a19536280"
+          }
+        },
+        {
+          "client_id": "73357929695-t7b9f4ccn90vme1inhgc6lvfgolkem82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw5K8OZBVYuNHdsl_j_yaGv3hvy_5k0s0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73357929695-t7b9f4ccn90vme1inhgc6lvfgolkem82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
