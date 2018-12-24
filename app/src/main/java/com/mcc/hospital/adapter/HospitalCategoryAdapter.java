@@ -1,6 +1,7 @@
 package com.mcc.hospital.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mcc.hospital.R;
+import com.mcc.hospital.activity.GovtHospitalActivity;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
         //Glide.with(context).load(hospitalImage.get(i)).into(myViewHolder.imghospital);
         myViewHolder.txthospitalname.setText(hospitalName.get(i));
@@ -47,7 +49,14 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show();
+                if (i==0){
+                    Intent govthospital=new Intent(context,GovtHospitalActivity.class);
+                    context.startActivity(govthospital);
+                }else if (i==1){
+                    Toast.makeText(context , "Private" , Toast.LENGTH_SHORT).show();
+                }else if (i==2){
+                    Toast.makeText(context , "Clinic" , Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

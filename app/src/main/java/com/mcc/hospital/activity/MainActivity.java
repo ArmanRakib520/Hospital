@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mPager.setCurrentItem(currentPage++ , true);
             }
         };
+
         Timer swipeTimer = new Timer();
         swipeTimer.schedule(new TimerTask() {
             @Override
