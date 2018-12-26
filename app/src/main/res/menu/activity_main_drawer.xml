@@ -12,6 +12,10 @@
             android:id="@+id/nav_private_hospital"
             android:icon="@drawable/ic_private_hospital"
             android:title="Private Hospital" />
+        <item
+            android:id="@+id/nav_clinic"
+            android:icon="@drawable/ic_private_hospital"
+            android:title="Clinic" />
 
     </group>
 

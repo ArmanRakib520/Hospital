@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mcc.hospital.R;
+import com.mcc.hospital.activity.ClinicActivity;
 import com.mcc.hospital.activity.GovtHospitalActivity;
+import com.mcc.hospital.activity.PrivateHospitalActivity;
 import com.mcc.hospital.model.Category;
 
 import java.util.ArrayList;
@@ -42,23 +44,25 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int position) {
 
         Glide.with(context).load(categories.get(position).getCategoryLogo()).into(myViewHolder.imgcategory);
-        myViewHolder.txthospitalname.setText(categories.get(position).getCategoryName());
+        myViewHolder.txthospitalcategoryname.setText(categories.get(position).getCategoryName());
 
 
 
-     /*   myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (position==0){
                     Intent govthospital=new Intent(context,GovtHospitalActivity.class);
                     context.startActivity(govthospital);
                 }else if (position==1){
-                    Toast.makeText(context , "Private" , Toast.LENGTH_SHORT).show();
+                    Intent govthospital=new Intent(context,PrivateHospitalActivity.class);
+                    context.startActivity(govthospital);
                 }else if (position==2){
-                    Toast.makeText(context , "Clinic" , Toast.LENGTH_SHORT).show();
+                    Intent govthospital=new Intent(context,ClinicActivity.class);
+                    context.startActivity(govthospital);
                 }
             }
-        });*/
+        });
     }
 
 
@@ -69,13 +73,13 @@ public class HospitalCategoryAdapter extends RecyclerView.Adapter<HospitalCatego
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imgcategory;
-        TextView txthospitalname;
+        TextView txthospitalcategoryname;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            txthospitalname = itemView.findViewById(R.id.txt_hos_name);
+            txthospitalcategoryname = itemView.findViewById(R.id.txt_hos_name);
             imgcategory=itemView.findViewById(R.id.img_hospital);
 
         }

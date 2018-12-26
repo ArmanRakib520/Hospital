@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MapViewActivity">
+
+    <ImageView
+        android:id="@+id/iv_hospital_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <TextView
+        android:id="@+id/tv_hospital_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="demo"/>
+    <TextView
+        android:id="@+id/tv_hospital_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="demo"/>
+    <TextView
+        android:id="@+id/tv_hospital_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="demo"/>
+
+</LinearLayout>

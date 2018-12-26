@@ -1,9 +1,12 @@
 package com.mcc.hospital.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Hospitalname {
+public class Hospitalname implements Parcelable {
 
     @SerializedName("hospital_id")
     @Expose
@@ -33,6 +36,69 @@ public class Hospitalname {
         this.hospitalContuct=hospital_contuct;
         this.hospitalLogoUrl=hospital_logo_url;
     }
+
+    protected Hospitalname(Parcel in) {
+        if (in.readByte() == 0) {
+            hospitalId = null;
+        } else {
+            hospitalId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            categoryId = null;
+        } else {
+            categoryId = in.readInt();
+        }
+        hospitalName = in.readString();
+        hospitalAddress = in.readString();
+        if (in.readByte() == 0) {
+            hospitalContuct = null;
+        } else {
+            hospitalContuct = in.readInt();
+        }
+        hospitalLogoUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest , int flags) {
+        if (hospitalId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(hospitalId);
+        }
+        if (categoryId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(categoryId);
+        }
+        dest.writeString(hospitalName);
+        dest.writeString(hospitalAddress);
+        if (hospitalContuct == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(hospitalContuct);
+        }
+        dest.writeString(hospitalLogoUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Hospitalname> CREATOR = new Creator<Hospitalname>() {
+        @Override
+        public Hospitalname createFromParcel(Parcel in) {
+            return new Hospitalname(in);
+        }
+
+        @Override
+        public Hospitalname[] newArray(int size) {
+            return new Hospitalname[size];
+        }
+    };
 
     public Integer getHospitalId() {
         return hospitalId;
@@ -66,7 +132,7 @@ public class Hospitalname {
         this.hospitalAddress = hospitalAddress;
     }
 
-    public Integer getHospitalContuct() {
+    public Integer getHospitalContact() {
         return hospitalContuct;
     }
 

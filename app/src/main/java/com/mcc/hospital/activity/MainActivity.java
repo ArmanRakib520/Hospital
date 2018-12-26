@@ -2,21 +2,15 @@ package com.mcc.hospital.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.mcc.hospital.R;
 import com.mcc.hospital.adapter.HospitalCategoryAdapter;
@@ -28,7 +22,6 @@ import com.mcc.hospital.model.CategoryList;
 import com.mcc.hospital.utilits.AppConstant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,18 +31,19 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity {
 
+    private static final Integer[] IMAGES = {R.drawable.img1 , R.drawable.img2 , R.drawable.img4 , R.drawable.img5};
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private static final Integer[] IMAGES = {R.drawable.img1 , R.drawable.img2 , R.drawable.img4 , R.drawable.img5};
-    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
-    ArrayList hospitalImage, hospitalName;
+    ArrayList<Category> hospitalCategoryList = new ArrayList();
     RecyclerView rvhospitalName;
     LinearLayoutManager mLayoutManager;
     HospitalCategoryAdapter hospitalCategoryAdapter;
-    ArrayList<Category> categoriesData;
+    private ProgressBar progressBar;
+
     Context mContext;
     Activity mActivity;
+    private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +60,14 @@ public class MainActivity extends BaseActivity {
 
         mContext = getApplicationContext();
         mActivity = MainActivity.this;
-        categoriesData = new ArrayList<>();
 
     }
 
     private void initview() {
 
         rvhospitalName = findViewById(R.id.rv_hospital_category);
-
+        progressBar = findViewById(R.id.progress_bar);
+        rvhospitalName.setVisibility(View.GONE);
 
         for (int i = 0; i < IMAGES.length; i++)
             ImagesArray.add(IMAGES[i]);
@@ -107,42 +101,45 @@ public class MainActivity extends BaseActivity {
         rvhospitalName.setLayoutManager(mLayoutManager);
 
 
-        hospitalCategoryAdapter = new HospitalCategoryAdapter(MainActivity.this , hospitalName);
+        hospitalCategoryAdapter = new HospitalCategoryAdapter(MainActivity.this , hospitalCategoryList);
         rvhospitalName.setAdapter(hospitalCategoryAdapter);
 
         initToolbar();
         initDrawer();
-
     }
 
 
     private void initFunctionality() {
-
+        loadCategories();
     }
 
     private void loadCategories() {
 
-        RetrofitClient.getClient().getCategoryList(HttpParams.SHEET_ID, HttpParams.SHEET_NAME_CATEGORY).enqueue(new Callback<CategoryList>() {
+        progressBar.setVisibility(View.VISIBLE);
+        RetrofitClient.getClient().getCategoryList(HttpParams.SHEET_ID , HttpParams.SHEET_NAME_CATEGORY).enqueue(new Callback<CategoryList>() {
             @Override
-            public void onResponse(Call<CategoryList> call, Response<CategoryList> response) {
+            public void onResponse(Call<CategoryList> call , Response<CategoryList> response) {
 
                 AppConstant.ALL_CATEGORY_LIST.clear();
                 AppConstant.ALL_CATEGORY_LIST.addAll(response.body().getCategory());
 
-                if (!categoriesData.isEmpty()) {
-                    categoriesData.clear();
+                if (!hospitalCategoryList.isEmpty()) {
+                    hospitalCategoryList.clear();
                 }
-                categoriesData.addAll(response.body().getCategory());
-
+                hospitalCategoryList.addAll(response.body().getCategory());
+                hospitalCategoryAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                rvhospitalName.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onFailure(Call<CategoryList> call, Throwable t) {
-                Log.d("TimeTesting", "Second Req DetailsDataNotFound");
+            public void onFailure(Call<CategoryList> call , Throwable t) {
+                Log.d("TimeTesting" , "Second Req DetailsDataNotFound");
             }
-        });
-    }
 
+        });
+
+    }
 
 
     @Override

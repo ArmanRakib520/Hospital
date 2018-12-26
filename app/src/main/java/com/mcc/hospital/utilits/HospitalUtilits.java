@@ -15,7 +15,7 @@ public class HospitalUtilits {
                 int hospital_id = hospitalname.getHospitalId();
                 String hospital_name = hospitalname.getHospitalName();
                 String hospital_address = hospitalname.getHospitalAddress();
-                int hospital_contuct = hospitalname.getHospitalContuct();
+                int hospital_contuct = hospitalname.getHospitalContact();
                 String hospital_logo_url = hospitalname.getHospitalLogoUrl();
                 Hospitalname single_channel = new Hospitalname(hospital_id, category_id, hospital_name, hospital_address, hospital_contuct, hospital_logo_url);
                 allChannelList.add(single_channel);
@@ -23,7 +23,7 @@ public class HospitalUtilits {
                 int hospital_id = hospitalname.getHospitalId();
                 String hospital_name = hospitalname.getHospitalName();
                 String hospital_address = hospitalname.getHospitalAddress();
-                int hospital_contuct = hospitalname.getHospitalContuct();
+                int hospital_contuct = hospitalname.getHospitalContact();
                 String hospital_logo_url = hospitalname.getHospitalLogoUrl();
                 Hospitalname hospitalnamee = new Hospitalname(hospital_id, category_id, hospital_name, hospital_address, hospital_contuct, hospital_logo_url);
                 allChannelList.add(hospitalnamee);

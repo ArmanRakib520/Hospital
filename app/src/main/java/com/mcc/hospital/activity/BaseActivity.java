@@ -109,8 +109,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Intent intent=new Intent(getApplicationContext(),GovtHospitalActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_private_hospital) {
+            Intent intent=new Intent(getApplicationContext(),PrivateHospitalActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_clinic) {
+            Intent intent=new Intent(getApplicationContext(),ClinicActivity.class);
+            startActivity(intent);
+
+        }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

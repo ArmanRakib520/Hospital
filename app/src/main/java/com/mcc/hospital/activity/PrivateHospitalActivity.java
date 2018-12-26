@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import com.mcc.hospital.R;
 import com.mcc.hospital.adapter.GovtHospitalAdapter;
@@ -18,15 +17,14 @@ import com.mcc.hospital.model.Hospitalname;
 import com.mcc.hospital.utilits.AppConstant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GovtHospitalActivity extends AppCompatActivity {
+public class PrivateHospitalActivity extends AppCompatActivity {
 
-    RecyclerView rvGovtHospital;
+    RecyclerView rvPrivateHospital;
     ArrayList<Hospitalname> hospitalNameList = new ArrayList();
     LinearLayoutManager mlayoutManager;
     GovtHospitalAdapter govtHospitalAdapter;
@@ -43,26 +41,23 @@ public class GovtHospitalActivity extends AppCompatActivity {
         initFuntionality();
     }
 
-
-
-
     private void initView() {
-        setContentView(R.layout.activity_govt_hospital);
+        setContentView(R.layout.activity_private_hospital);
 
-        rvGovtHospital=findViewById(R.id.rv_govt_hospital);
+        rvPrivateHospital=findViewById(R.id.rv_private_hospital);
 
         mlayoutManager = new LinearLayoutManager(getApplicationContext());
-        rvGovtHospital.setLayoutManager(mlayoutManager);
+        rvPrivateHospital.setLayoutManager(mlayoutManager);
 
 
-        govtHospitalAdapter = new GovtHospitalAdapter(GovtHospitalActivity.this,hospitalNameList);
-        rvGovtHospital.setAdapter(govtHospitalAdapter);
+        govtHospitalAdapter = new GovtHospitalAdapter(PrivateHospitalActivity.this,hospitalNameList);
+        rvPrivateHospital.setAdapter(govtHospitalAdapter);
 
     }
 
     private void initVariable() {
         mContext = getApplicationContext();
-        mActivity = GovtHospitalActivity.this;
+        mActivity = PrivateHospitalActivity.this;
 
     }
 
@@ -72,7 +67,7 @@ public class GovtHospitalActivity extends AppCompatActivity {
 
     private void loadHospital() {
 
-       // progressBar.setVisibility(View.VISIBLE);
+        // progressBar.setVisibility(View.VISIBLE);
         RetrofitClient.getClient().getHospitalList(HttpParams.SHEET_ID , HttpParams.SHEET_NAME).enqueue(new Callback<HospitalList>() {
             @Override
             public void onResponse(Call<HospitalList> call , Response<HospitalList> response) {
@@ -85,7 +80,7 @@ public class GovtHospitalActivity extends AppCompatActivity {
                 }
 
                 for(int i=0; i<response.body().getHospitalname().size(); i++){
-                    if(response.body().getHospitalname().get(i).getCategoryId() == 0){
+                    if(response.body().getHospitalname().get(i).getCategoryId() == 1){
                         hospitalNameList.add(response.body().getHospitalname().get(i));
                     }
                 }
@@ -104,6 +99,4 @@ public class GovtHospitalActivity extends AppCompatActivity {
         });
 
     }
-
-
 }

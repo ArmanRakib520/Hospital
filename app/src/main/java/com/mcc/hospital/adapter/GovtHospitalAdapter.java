@@ -1,6 +1,7 @@
 package com.mcc.hospital.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,25 +10,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.mcc.hospital.R;
+import com.mcc.hospital.activity.MapViewActivity;
+import com.mcc.hospital.model.Hospitalname;
+
 import java.util.ArrayList;
 
 public class GovtHospitalAdapter extends RecyclerView.Adapter<GovtHospitalAdapter.MyViewHolder> {
 
-
-    ArrayList<String> govtHospitalName;
-    ArrayList<String> govtHospitalAddress;
-    ArrayList<String> govtHospitalPhone;
-    ArrayList<Integer> govtHospitalImage;
+    ArrayList<Hospitalname> hospitalnameArrayList;
     Context context;
     GovtHospitalAdapter.MyViewHolder viewHoldertext;
 
-    public GovtHospitalAdapter(Context context, ArrayList<String> govtHospitalNames, ArrayList<Integer> govtHospitalImage, ArrayList<String> govtHospitalAddress, ArrayList<String> govtHospitalPhone) {
+    public GovtHospitalAdapter(Context context,ArrayList<Hospitalname> hospitalname) {
         this.context = context;
-        this.govtHospitalName = govtHospitalNames;
-        this.govtHospitalImage = govtHospitalImage;
-        this.govtHospitalAddress = govtHospitalAddress;
-        this.govtHospitalPhone = govtHospitalPhone;
+        this.hospitalnameArrayList = hospitalname;
     }
 
     @Override
@@ -38,27 +37,18 @@ public class GovtHospitalAdapter extends RecyclerView.Adapter<GovtHospitalAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GovtHospitalAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull GovtHospitalAdapter.MyViewHolder myViewHolder, int position) {
 
-        //Glide.with(context).load(hospitalImage.get(i)).into(myViewHolder.imghospital);
-        myViewHolder.txthospitalname.setText(govtHospitalName.get(i));
-        myViewHolder.txthospitaladdress.setText(govtHospitalAddress.get(i));
-        myViewHolder.txthospitalphone.setText(govtHospitalPhone.get(i));
-        myViewHolder.imghospital.setImageResource(govtHospitalImage.get(i));
+        Glide.with(context).load(hospitalnameArrayList.get(position).getHospitalLogoUrl()).into(myViewHolder.imghospital);
+        myViewHolder.txthospitalname.setText(hospitalnameArrayList.get(position).getHospitalName());
+        myViewHolder.txthospitaladdress.setText(hospitalnameArrayList.get(position).getHospitalAddress());
+        myViewHolder.txthospitalphone.setText(hospitalnameArrayList.get(position).getHospitalContact().toString());
 
-
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
-
 
     @Override
     public int getItemCount() {
-        return govtHospitalName.size();
+        return hospitalnameArrayList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -73,6 +63,17 @@ public class GovtHospitalAdapter extends RecyclerView.Adapter<GovtHospitalAdapte
             txthospitalname = itemView.findViewById(R.id.txt_hospital_name);
             txthospitaladdress = itemView.findViewById(R.id.txt_hospital_location);
             txthospitalphone = itemView.findViewById(R.id.txt_hospital_phone);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, MapViewActivity.class);
+                    Hospitalname hospitalname = hospitalnameArrayList.get(getAdapterPosition());
+                    intent.putExtra("HOSPITAL_OBJECT", hospitalname);
+                    context.startActivity(intent);
+                }
+            });
 
         }
     }
