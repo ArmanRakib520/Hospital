@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.mcc.hospital.R;
 import com.mcc.hospital.adapter.HospitalCategoryAdapter;
 import com.mcc.hospital.adapter.SlidingImageAdapter;
@@ -53,6 +56,7 @@ public class MainActivity extends BaseActivity {
         initeVariable();
         initview();
         initFunctionality();
+
 
     }
 

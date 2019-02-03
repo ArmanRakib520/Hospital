@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/profilebg"
     android:orientation="vertical"
     tools:context=".activity.MapViewActivity">
 
@@ -12,20 +13,89 @@
         android:layout_height="200dp"
         android:src="@drawable/ic_launcher_background"/>
 
-    <TextView
-        android:id="@+id/tv_hospital_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="demo"/>
-    <TextView
-        android:id="@+id/tv_hospital_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="demo"/>
-    <TextView
-        android:id="@+id/tv_hospital_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="demo"/>
+        android:layout_margin="25dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:text="Hospital Name"/>
+            <TextView
+                android:id="@+id/tv_hospital_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:text="demo"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:text="Location"/>
+
+            <TextView
+                android:id="@+id/tv_hospital_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:text="demo"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:text="Phone"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <TextView
+                    android:id="@+id/tv_hospital_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:text="demo"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="0.1"
+                    android:background="@drawable/ic_about"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
 
 </LinearLayout>
