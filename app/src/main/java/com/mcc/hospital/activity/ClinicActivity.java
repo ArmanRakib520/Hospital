@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.mcc.hospital.R;
 import com.mcc.hospital.adapter.GovtHospitalAdapter;
 import com.mcc.hospital.api.HttpParams;
@@ -28,6 +31,7 @@ public class ClinicActivity extends AppCompatActivity {
     ArrayList<Hospitalname> clinicNameList = new ArrayList();
     LinearLayoutManager mlayoutManager;
     GovtHospitalAdapter govtHospitalAdapter;
+    private InterstitialAd mInterstitialAd;
 
     Context mContext;
     Activity mActivity;
@@ -52,6 +56,7 @@ public class ClinicActivity extends AppCompatActivity {
 
         govtHospitalAdapter = new GovtHospitalAdapter(ClinicActivity.this,clinicNameList);
         rvClinic.setAdapter(govtHospitalAdapter);
+        setupInterstialAd();
 
     }
 
@@ -63,6 +68,23 @@ public class ClinicActivity extends AppCompatActivity {
 
     private void initFuntionality() {
         loadHospital();
+    }
+
+    private void setupInterstialAd() {
+        mInterstitialAd = new InterstitialAd(ClinicActivity.this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.full_screen_ad_unit_id));
+
+        AdRequest adRequestFull = new AdRequest.Builder().build();
+
+        mInterstitialAd.loadAd(adRequestFull);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                // Full screen advertise will show only after loading complete
+                mInterstitialAd.show();
+            }
+        });
     }
 
     private void loadHospital() {

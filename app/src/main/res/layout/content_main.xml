@@ -35,12 +35,11 @@
         android:layout_centerVertical="true"/>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/admob_adview"
+        android:id="@+id/ad_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_footer" />
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id" />
 
 </RelativeLayout>

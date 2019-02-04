@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
     LinearLayoutManager mLayoutManager;
     HospitalCategoryAdapter hospitalCategoryAdapter;
     private ProgressBar progressBar;
-
+    private AdView mAdView;
     Context mContext;
     Activity mActivity;
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
@@ -110,11 +110,25 @@ public class MainActivity extends BaseActivity {
 
         initToolbar();
         initDrawer();
+        setupBannerAd();
     }
 
 
     private void initFunctionality() {
         loadCategories();
+    }
+
+    private void setupBannerAd() {
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        /*AdRequest adRequest = new AdRequest.Builder().build();*/
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("33BE2250B43518CCDA7DE426D04EE231")  // An example device ID
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
+
+
     }
 
     private void loadCategories() {
